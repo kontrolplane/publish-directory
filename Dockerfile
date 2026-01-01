@@ -8,6 +8,8 @@ RUN CGO_ENABLED=0 go build -o publish-directory
 
 FROM alpine:latest
 
-COPY --from=build /action/publish-directory /publish-directory
+RUN apk --no-cache add git
 
-ENTRYPOINT ["/publish-directory"]
+COPY --from=build /action/publish-directory /usr/local/bin/publish-dir
+
+ENTRYPOINT ["/usr/local/bin/publish-dir"]
