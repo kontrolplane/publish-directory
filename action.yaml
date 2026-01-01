@@ -1,5 +1,5 @@
 name: "publish directory"
-description: ""
+description: "Github actions for publishing (sub-)directories as repository branches"
 author: "Levi van Noort"
 
 branding:
@@ -17,5 +17,9 @@ inputs:
     default: ''
   BRANCH:
     description: 'The name of the branch on which to publish'
-    required: false
+    required: true
+    default: ''
+  FOLDER:
+    description: 'The name of the folder which to publish as a branch'
+    required: true
     default: ''
