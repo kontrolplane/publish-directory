@@ -23,3 +23,15 @@ inputs:
     description: 'The name of the folder which to publish as a branch'
     required: true
     default: ''
+  COMMIT_USERNAME:
+    description: 'The username as who to commit the directory on the branch'
+    required: false
+    default: ''
+  COMMIT_EMAIL:
+    description: 'The email as who to commit the directory on the branch'
+    required: false
+    default: ''
+  COMMIT_MESSAGE:
+    description: 'The message to commit the directory on the branch'
+    required: false
+    default: ''
