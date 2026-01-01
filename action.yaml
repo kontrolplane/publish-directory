@@ -1,0 +1,21 @@
+name: "publish directory"
+description: ""
+author: "Levi van Noort"
+
+branding:
+  icon: 'chevrons-up'
+  color: 'green'
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+inputs:
+  REPOSITORY:
+    description: 'The repository on which to publish the branch'
+    required: false
+    default: ''
+  BRANCH:
+    description: 'The name of the branch on which to publish'
+    required: false
+    default: ''
