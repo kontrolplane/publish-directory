@@ -22,7 +22,8 @@ type Config struct {
 	CommitUser       string `env:"INPUT_COMMIT_USERNAME" envDefault:"github-actions[bot]"`
 	CommitEmail      string `env:"INPUT_COMMIT_EMAIL" envDefault:"github-actions[bot]@users.noreply.github.com"`
 	CommitMessage    string `env:"INPUT_COMMIT_MESSAGE" envDefault:"chore: update branch from directory"`
-	GithubToken      string `env:"GITHUB_TOKEN"`
+	SkipEmptyCommits bool   `env:"INPUT_SKIP_EMTPY_COMMITS" envDefault:"true"`
+	GithubToken      string `env:"INPUT_GITHUB_TOKEN"`
 	GithubRepository string `env:"GITHUB_REPOSITORY"`
 }
 
@@ -113,8 +114,11 @@ func publishDirectory(cfg Config) error {
 	}
 
 	if status.IsClean() {
-		fmt.Println("No changes to commit")
-		return nil
+		if cfg.SkipEmptyCommits {
+			fmt.Println("No changes to commit, skipping")
+			return nil
+		}
+		fmt.Println("No changes detected, but creating empty commit anyway")
 	}
 
 	commit, err := worktree.Commit(cfg.CommitMessage, &git.CommitOptions{
@@ -123,6 +127,7 @@ func publishDirectory(cfg Config) error {
 			Email: cfg.CommitEmail,
 			When:  time.Now(),
 		},
+		AllowEmptyCommits: !cfg.SkipEmptyCommits,
 	})
 	if err != nil {
 		return fmt.Errorf("failed to commit: %w", err)
